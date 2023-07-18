@@ -1,6 +1,6 @@
 @import url(grid.css);
 html .woocommerce div.product .woocommerce-product-gallery--columns-4 .flex-control-thumbs li:nth-child(4n+1) {
-    clear: none;
+    clear: none!important;
 }
 label {
     display: block;
