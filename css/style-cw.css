@@ -1,0 +1,217 @@
+@import url(grid.css);
+html .woocommerce div.product .woocommerce-product-gallery--columns-4 .flex-control-thumbs li:nth-child(4n+1) {
+    clear: none;
+}
+label {
+    display: block;
+}
+
+input, select {
+    width: 100%;
+}
+
+html .woocommerce div.product div.images .flex-control-thumbs li {
+    width: calc(12% - 3px);
+    margin-left: 3px;
+    margin-top: 6px;
+    margin-right: 3px;
+}
+
+.woocommerce:where(body:not(.woocommerce-block-theme-has-button-styles)) button.button.alt.disabled {
+    background: #62792a!important;
+}
+nav.woocommerce-breadcrumb {
+    background-color: transparent;
+    border: 0;
+    box-shadow: none;
+    margin-top: 15px;
+    float: left;
+    width: 100%;
+}
+
+div.input-group{
+    margin-bottom: 10px;
+}
+
+.woocommerce ul.products li {
+    text-align: center;
+}
+
+.woocommerce div.product form.cart .button {
+    min-width: 279px;
+    height: 46px;
+}
+
+section.related.products {
+    width: 100%;
+    float: left;
+}
+.login-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #000000c2;
+    width: 100%;
+    height: 100%;
+    z-index: 99;
+    display: grid;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    transform: translateY(-100%);
+    transition: .2s;
+    opacity: 0;
+}
+
+.login-modal.show{
+    transform: translateY(0);
+    opacity: 1;
+}
+.login-modal>.close {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+.login-modal .content {
+    margin: auto;
+    width: 100%;
+    max-width: 566px;
+    min-width: 358px;
+    background-color: #fff;
+    margin-top: 5%;
+    position: relative;
+    max-height: calc(100% - 60px);
+    overflow: auto;
+}
+.login-modal .content button.close {
+    position: absolute;
+    right: -4px;
+    top: -4px;
+    border-radius: 4px;
+    height: 30px;
+    width: 30px;
+    border: 0;
+    background: #868686;
+    color: #fff;
+}
+.login-modal .content button.close:hover {
+    background-color: brown;
+}
+.login-modal .content h2 {
+    padding: 10px 22px;
+    margin: 0;
+}
+
+.login-modal .content form.login {
+    margin-top: 0;
+}
+
+.woocommerce-notices-wrapper > ul {
+    padding-left: 40px;
+    background: #ffd9d9;
+}
+
+.woocommerce-notices-wrapper > ul:before {
+    left: 13px;
+}
+
+h2.woocommerce-loop-product__title {
+    color: #3a3a3a;
+}
+
+.woocommerce ul.products li.product, .woocommerce-page ul.products li.product {
+    background: #fff;
+    border-radius: 5px;
+
+    padding: 8px!important;
+}
+
+.woocommerce ul.products .slick-track li.product{
+     margin: 0 8px!important;
+}
+.woocommerce ul.products li.product .button{
+    margin-bottom: 1em;
+}
+
+.respOrcamento {
+    text-align: center;
+    background-color: #17ab66;
+    color: #fff;
+    padding: 60px 15px;
+    margin-bottom: 200px;
+    margin-top: -86px;
+    position: relative;
+}
+#final_orcamento a.btn-zap {
+    display: inline-block;
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 11px;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #087542;
+    box-shadow: 0 2px 5px #00000080;
+    line-height: 1;
+    margin-bottom: 40px;
+}
+
+/*
+li.thwvsf-wrapper-item-li.thwvsf-color-li.thwvsf-div.thwvsf-checkbox:before {
+    content: attr(title);
+    position: absolute;
+    top: -20px;
+    background: #181818;
+    color: #fff;
+    padding: 0 5px;
+    border-radius: 5px;
+    line-height: 1.8;
+    transition: .2s;
+    transform: translateY(26px) scale(0.4);
+    white-space: nowrap;
+    font-size: 12px;
+    opacity: 0;
+    z-index: 1;
+}
+
+li.thwvsf-wrapper-item-li.thwvsf-color-li.thwvsf-div.thwvsf-checkbox:hover:before {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+}
+
+.woocommerce .thwvsf-wrapper-ul .thwvsf-wrapper-item-li {
+    width: 38px;
+    height: 38px;
+    border: 2px solid #fff;
+    padding: 0;
+    border-radius: 50%;
+    opacity: .8;
+}
+.thwvsf-wrapper-ul .thwvsf-wrapper-item-li:hover{
+    position: relative;
+    z-index: 2;
+}
+.thwvsf-wrapper-ul .thwvsf-wrapper-item-li.thwvsf-selected, .thwvsf-wrapper-ul .thwvsf-wrapper-item-li:hover {
+    transform: scale(1.15);
+    opacity: 1;
+}
+.thwvsf-wrapper-ul .thwvsf-wrapper-item-li.thwvsf-selected span:after {
+    content: '✔';
+    position: absolute;
+    top: 9px;
+    text-shadow: 1px 1px 3px white;
+    color: #2bc200;
+    background: #fff;
+    line-height: 1;
+    font-size: 12px;
+    border-radius: 10px;
+    height: 16px;
+    width: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    left: 9px;
+    box-shadow: 0 0 2px #000;
+}
+*/
