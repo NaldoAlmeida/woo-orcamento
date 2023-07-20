@@ -1,6 +1,3 @@
-<?php
-$option = json_decode(get_option('config_orcamento'));
-?>
 <form style="max-width: 800px;" onsubmit="event.preventDefault(); ORCAMENTO.submit(this)">
     <div class="cw-container">
         <h1>Configurações - Orçamentos CW</h1>
@@ -18,7 +15,7 @@ $option = json_decode(get_option('config_orcamento'));
                     </th>
                     <td>
                         <label>
-                            <input type="checkbox" name="ocultar_preco" <?php echo $option->ocultar_preco ?> value="checked">
+                            <input type="checkbox" name="ocultar_preco" <?php echo getConfigOrcamento('ocultar_preco') ?> value="checked">
                             <span>Sim</span>
                         </label>
                     </td>
@@ -30,7 +27,7 @@ $option = json_decode(get_option('config_orcamento'));
                     </th>
                     <td>
                         <label>
-                            <input type="tel" name="whatsapp" value="<?php echo $option->whatsapp ?>">
+                            <input type="tel" name="whatsapp" value="<?php echo getConfigOrcamento('whatsapp') ?>">
                         </label>
                     </td>
                 </tr>
