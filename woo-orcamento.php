@@ -75,13 +75,22 @@ function custom_change_admin_label()
     $menu['55.5'][0] = 'Orçamentos';
 }
 
-/*
-add_filter('woocommerce_get_price_html', 'mycode_remove_sale_price', 100, 2);
-function mycode_remove_sale_price($price, $product)
+function getConfigOrcamento($indice)
 {
-    return '';
+    $option = json_decode(get_option('config_orcamento'));
+    return (isset($option->$indice)) ? $option->$indice : false;
 }
-*/
+
+if (getConfigOrcamento('ocultar_preco')) {
+    add_filter('woocommerce_get_price_html', 'mycode_remove_sale_price', 100, 2);
+    add_filter('woocommerce_cart_item_price', 'mycode_remove_sale_price', 100, 2);
+    add_filter('woocommerce_cart_item_subtotal', 'mycode_remove_sale_price', 100, 2);
+    function mycode_remove_sale_price($price, $product)
+    {
+        return '';
+    }
+}
+
 
 
 // Helper function to load a WooCommerce template or template part file from the
@@ -140,7 +149,7 @@ function assets_orcamento_cw_front()
 
     /* JS*/
     wp_enqueue_script('ajax_operation_script', plugins_url('/js/app.js', __FILE__), array('jquery'), PLUGIN_CW, true);
-    wp_localize_script('ajax_operation_script', 'urlAjax', admin_url('admin-ajax.php'));
+    wp_localize_script('ajax_operation_script', 'urlAjax', [admin_url('admin-ajax.php')]);
     wp_enqueue_script('ajax_operation_script');
     wp_enqueue_script('sweetalert2', plugins_url('/js/sweetalert2.all.min.js', __FILE__));
     wp_enqueue_script('serializeJSON', plugins_url('/js/serializeJSON.js', __FILE__));
@@ -149,13 +158,15 @@ function assets_orcamento_cw_front()
 
 function assets_orcamento_cw_admin($hook)
 {
-    wp_enqueue_style('style_admin', plugins_url('/css/style_admin.css', __FILE__));
+    //wp_enqueue_style('style_admin', plugins_url('/css/grid.css', __FILE__));
     wp_enqueue_style('sweetalert2', plugins_url('/css/sweetalert2.min.css', __FILE__));
 
     /** JS */
     wp_enqueue_script('sweetalert2', plugins_url('/js/sweetalert2.all.min.js', __FILE__));
     wp_enqueue_script('maskedinput', plugins_url('/js/maskedinput.min.js', __FILE__), array('jquery'));
-    wp_enqueue_script('admin-js', plugins_url('/js/admin.js', __FILE__));
+    wp_enqueue_script('serializeJSON', plugins_url('/js/serializeJSON.js', __FILE__));
+    wp_enqueue_script('ajax_operation_script', plugins_url('/js/admin.js', __FILE__), array('jquery'), PLUGIN_CW, true);
+    wp_localize_script('ajax_operation_script', 'urlAjax', [admin_url('admin-ajax.php')]);
 }
 add_action('admin_enqueue_scripts', 'assets_orcamento_cw_admin');
 
@@ -244,6 +255,25 @@ function action_woocommerce_thankyou($order_id)
     // Auto login
     wp_set_current_user($user_id);
     wp_set_auth_cookie($user_id);
+}
+
+add_action('wp_ajax_configuracoes', 'configuracoes_callback');
+function configuracoes_callback()
+{
+    $retorno = [];
+    if (wp_verify_nonce($_POST['finaliza_orcamento'], "finaliza_orcamento")) {
+        update_option('config_orcamento', json_encode([
+            'whatsapp'      => $_POST['whatsapp'],
+            'ocultar_preco' => $_POST['ocultar_preco'],
+        ]));
+
+        $retorno = ['success' => 1];
+    } else {
+        $retorno = ['error' => 'verify_nonce'];
+    }
+
+    echo json_encode($retorno);
+    die();
 }
 
 
@@ -378,7 +408,7 @@ function add_status_orcamento($order_statuses)
     return $order_statuses;
 }
 
-/*
+
 add_action('admin_menu', 'register_orcamento_cw_menu', 2);
 function register_orcamento_cw_menu()
 {
@@ -405,12 +435,10 @@ function requirePageConfig()
 {
 ?>
     <div class="wrap">
-        <h1>Configurações - Orçamentos</h1>
         <?php require_once(plugin_dir_path(__FILE__) . 'templates/admin_config.php'); ?>
     </div>
-<?php
+    <?php
 }
-*/
 
 // Add a custom metabox only for shop_order post type (order edit pages)
 add_action('add_meta_boxes', 'add_meta_boxesws');
@@ -446,14 +474,14 @@ function add_btn_resp_orcamento_whatsapp()
 
 
 ///Add TAB in SETTING Woocoomerce
-//add_filter('woocommerce_settings_tabs_array', 'cxc_add_settings_tab', 5);
+add_filter('woocommerce_settings_tabs_array', 'cxc_add_settings_tab', 5);
 function cxc_add_settings_tab($settings_tabs)
 {
     $settings_tabs['add_tab_orcamentos'] = __('Config. Orçamentos', 'config_orcamento_cw');
     return $settings_tabs;
 }
 
-//add_action('woocommerce_settings_tabs_add_tab_orcamentos', 'add_tab_orcamento');
+add_action('woocommerce_settings_tabs_add_tab_orcamentos', 'add_tab_orcamento');
 function add_tab_orcamento()
 {
     woocommerce_admin_fields(cxc_get_settings());
@@ -490,7 +518,7 @@ function cxc_get_settings()
     return apply_filters('wc_add_tab_orcamentos_settings', $settings);
 }
 
-//add_action('woocommerce_update_options_add_tab_orcamentos', 'cxc_update_settings');
+add_action('woocommerce_update_options_add_tab_orcamentos', 'cxc_update_settings');
 function cxc_update_settings()
 {
     woocommerce_update_options(cxc_get_settings());
@@ -622,7 +650,7 @@ function cloudways_display_order_data_in_admin($order)
 
         echo '<p class="form-field form-field-wide"><strong>' . __('WhatsApp') . ':</strong> ' . $user->billing_whatsapp . '</p>';
         echo '<p class="form-field form-field-wide"><strong>' . __('CPF/CNPJ') . ':</strong> ' . $user->billing_cpf_cnpj . '</p>';
-?>
+    ?>
 
         <div class="edit_address">
             <?php woocommerce_wp_text_input(array('id' => 'billing_whatsapp', 'label' => __('WhatsApp'), 'wrapper_class' => '_billing_company_field')); ?>

@@ -5,6 +5,7 @@
     margin: auto;
     display: grid;
     background-color: #fff;
+    padding: 0 10px;
 }
 .row {
     margin-left: -10px;
@@ -208,4 +209,16 @@
 
 .right-align {
     text-align: right;
+}
+
+label {
+    display: block;
+}
+
+input, select {
+    width: 100%;
+}
+
+div.input-group{
+    margin-bottom: 10px;
 }

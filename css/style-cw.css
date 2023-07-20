@@ -2,13 +2,6 @@
 html .woocommerce div.product .woocommerce-product-gallery--columns-4 .flex-control-thumbs li:nth-child(4n+1) {
     clear: none!important;
 }
-label {
-    display: block;
-}
-
-input, select {
-    width: 100%;
-}
 
 html .woocommerce div.product div.images .flex-control-thumbs li {
     width: calc(12% - 3px);
@@ -27,10 +20,6 @@ nav.woocommerce-breadcrumb {
     margin-top: 15px;
     float: left;
     width: 100%;
-}
-
-div.input-group{
-    margin-bottom: 10px;
 }
 
 .woocommerce ul.products li {

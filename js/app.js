@@ -51,7 +51,7 @@ class orcamento {
                 <a class="btn-zap" href="${url}" target="_blanc">Enviar por WhatsApp</a>
                 <p>Você pode acompanhar seus pedidos <a href="/minha-conta">clicando aqui</a></p>
                 </div>`)
-                
+
                 jQuery('html, body').animate({
                     scrollTop: (jQuery("#final_orcamento").offset().top - 50)
                 }, 1000);
@@ -99,9 +99,6 @@ function ativaMascaras() {
         reverse: true
     });
 
-
-    M.updateTextFields();
-    jQuery('select:not(.swal2-select, .thwvs-select)').formSelect();
 
     var options = {
         onKeyPress: function (cpfcnpj, e, field, options) {

@@ -18,7 +18,11 @@
 
 defined('ABSPATH') || exit;
 
-do_action('woocommerce_before_cart'); ?>
+do_action('woocommerce_before_cart');
+
+
+
+?>
 
 <div id="final_orcamento" class="cw-container">
 	<form class="woocommerce-cart-form" action="<?php echo esc_url(wc_get_cart_url()); ?>" method="post">
@@ -30,9 +34,21 @@ do_action('woocommerce_before_cart'); ?>
 					<th class="product-remove"><span class="screen-reader-text"><?php esc_html_e('Remove item', 'woocommerce'); ?></span></th>
 					<th class="product-thumbnail"><span class="screen-reader-text"><?php esc_html_e('Thumbnail image', 'woocommerce'); ?></span></th>
 					<th class="product-name"><?php esc_html_e('Product', 'woocommerce'); ?></th>
-					<th class="product-price"><?php esc_html_e('Price', 'woocommerce'); ?></th>
+					<?php
+					if (!getConfigOrcamento('ocultar_preco')) {
+					?>
+						<th class="product-price"><?php esc_html_e('Price', 'woocommerce'); ?></th>
+					<?php
+					}
+					?>
 					<th class="product-quantity"><?php esc_html_e('Quantity', 'woocommerce'); ?></th>
-					<th class="product-subtotal"><?php esc_html_e('Subtotal', 'woocommerce'); ?></th>
+					<?php
+					if (!getConfigOrcamento('ocultar_preco')) {
+					?>
+						<th class="product-subtotal"><?php esc_html_e('Subtotal', 'woocommerce'); ?></th>
+					<?php
+					}
+					?>
 				</tr>
 			</thead>
 			<tbody>
@@ -96,12 +112,18 @@ do_action('woocommerce_before_cart'); ?>
 								?>
 							</td>
 
-							<td class="product-price" data-title="<?php esc_attr_e('Price', 'woocommerce'); ?>">
-								<?php
-								echo apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key); // PHPCS: XSS ok.
-								?>
-							</td>
+							<?php
+							if (!getConfigOrcamento('ocultar_preco')) {
+							?>
 
+								<td class="product-price" data-title="<?php esc_attr_e('Price', 'woocommerce'); ?>">
+									<?php
+									echo apply_filters('woocommerce_cart_item_price', WC()->cart->get_product_price($_product), $cart_item, $cart_item_key); // PHPCS: XSS ok.
+									?>
+								</td>
+							<?php
+							}
+							?>
 							<td class="product-quantity" data-title="<?php esc_attr_e('Quantity', 'woocommerce'); ?>">
 								<?php
 								if ($_product->is_sold_individually()) {
@@ -127,12 +149,17 @@ do_action('woocommerce_before_cart'); ?>
 								echo apply_filters('woocommerce_cart_item_quantity', $product_quantity, $cart_item_key, $cart_item); // PHPCS: XSS ok.
 								?>
 							</td>
-
-							<td class="product-subtotal" data-title="<?php esc_attr_e('Subtotal', 'woocommerce'); ?>">
-								<?php
-								echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // PHPCS: XSS ok
-								?>
-							</td>
+							<?php
+							if (!getConfigOrcamento('ocultar_preco')) {
+							?>
+								<td class="product-subtotal" data-title="<?php esc_attr_e('Subtotal', 'woocommerce'); ?>">
+									<?php
+									echo apply_filters('woocommerce_cart_item_subtotal', WC()->cart->get_product_subtotal($_product, $cart_item['quantity']), $cart_item, $cart_item_key); // PHPCS: XSS ok
+									?>
+								</td>
+							<?php
+							}
+							?>
 						</tr>
 				<?php
 					}
@@ -222,10 +249,10 @@ do_action('woocommerce_before_cart'); ?>
 					<input required type="text" id="first_name" name="first_name" placeholder="Seu nome" value="<?php echo ($user) ? esc_attr($user->display_name) : ''; ?>">
 				</div>
 
-				<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+				<div class="input-group">
 					<label for="reg_cpf_cnpj"><?php _e('CPF/CNPJ', 'woocommerce'); ?> <span class="required">*</span></label>
 					<input type="tel" class="maskCpfCnpj input-text" name="billing_cpf_cnpj" id="reg_cpf_cnpj" value="<?php echo esc_attr($userWp->billing_cpf_cnpj); ?>" />
-				</p>
+				</div>
 
 				<div class="field_company input-group" style="display: none">
 					<label for="empresaCliente">Empresa</label>
@@ -237,11 +264,10 @@ do_action('woocommerce_before_cart'); ?>
 					<input required type="email" id="emailCliente" name="email" placeholder="Seu e-mail" value="<?php echo ($user) ? esc_attr($user->email) : ''; ?>">
 				</div>
 
-
-				<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide">
+				<div class="input-group">
 					<label for="reg_whatsapp"><?php _e('WhatsApp', 'woocommerce'); ?> <span class="required">*</span></label>
 					<input required type="tel" class="maskTel input-text" name="billing_whatsapp" id="reg_whatsapp" value="<?php echo esc_attr($userWp->billing_whatsapp); ?>" />
-				</p>
+				</div>
 
 				<div class="input-group">
 					<label for="telCliente">Telefone</label>
@@ -319,11 +345,13 @@ do_action('woocommerce_before_cart'); ?>
 					</div>
 
 				</div>
-
-				<div class="input-group">
-					<label for="mensagemCliente">Mensagem</label>
-					<textarea id="mensagemCliente" name="mensagem" rows="10" placeholder="Sua mensagem"></textarea>
+				<div class="row">
+					<div class="col s12 input-group">
+						<label for="mensagemCliente">Mensagem</label>
+						<textarea id="mensagemCliente" name="mensagem" rows="5" placeholder="Sua mensagem"></textarea>
+					</div>
 				</div>
+
 			</div>
 			<div class="col s12 center-align">
 				<button type="submit" class="button alt">
@@ -337,14 +365,38 @@ do_action('woocommerce_before_cart'); ?>
 
 
 <style>
+	p.entrega-retira {
+		margin: 0;
+		display: flex;
+		justify-content: center;
+		margin-bottom: 15px;
+	}
+
 	.radio_checkbox label {
 		display: inline-block;
-		width: min-content;
-		background-color: #e9e9e9;
+		width: 100%;
 		margin-right: 5px;
-		padding: 8px 17px 8px 8px;
-		border-radius: 5px;
-		margin-top: 11px;
+		margin-top: 32px;
+		cursor: pointer;
+	}
+
+	p.entrega-retira label input {
+		display: none;
+	}
+
+	p.entrega-retira label span {
+		display: inline-block;
+		height: 40px;
+		padding: 5px 10px;
+		border-radius: 3px;
+		background: #ededed;
+		width: 100%;
+		text-align: center;
+	}
+
+	p.entrega-retira label input:checked+span {
+		background: #5c5c5c;
+		color: #fff;
 	}
 
 	.set-entrega {

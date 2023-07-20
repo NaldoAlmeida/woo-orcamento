@@ -1,38 +1,24 @@
-function ativaMascaras() {
-    jQuery('.maskTel').mask('(00) 0000-00000');
-    jQuery('.maskCep').mask('00000-000');
-    jQuery('.maskData').mask('00/00/0000');
-    jQuery('.maskCpf').mask('000.000.000-00', {
-        reverse: false
-    });
-    jQuery('.maskRg').mask('00.000.000-0');
-    jQuery('.porcentagem1').mask('00.9', {
-        reverse: true
-    });
-    jQuery('.maskCnpj').mask('00.000.000/0000-00', {
-        reverse: true
-    });
+var form, btnSubmit, textBtn;
 
-    var options = {
-        onKeyPress: function (cpfcnpj, e, field, options) {
-            var masks = ['000.000.000-009', '00.000.000/0000-00'];
-            var mask = (cpfcnpj.length > 14) ? masks[1] : masks[0];
-            if (cpfcnpj.length > 14) {
-                jQuery('.field_company').show()
-            } else {
-                jQuery('.field_company').hide()
-            }
-            jQuery('.maskCpfCnpj').mask(mask, options);
-        },
+class orcamento_admin {
+    submit(e) {
+        form = jQuery(e);
+        btnSubmit = form.find('[type=submit]');
+        textBtn = btnSubmit.html();
+        btnSubmit.addClass('disabled').html('Aguarde... <i class="fa fa-spinner fa-pulse"></i>');
 
-        // onChange: function (cep, e, field) {
-        //     jQuery(field).attr({ onBlur: 'validadeCpfCnpj(this)' })
-        // },
+        var data = form.serializeJSON();
 
-    };
-    jQuery('.maskCpfCnpj').mask('000.000.000-009', options);
+        jQuery.post(urlAjax[0], data, function (res) {
+            res = JSON.parse(res);
+            console.log('RESP', res);
+
+        }).fail(function () {
+            alert("error");
+        }).always(function () {
+            btnSubmit.removeClass('disabled').html(textBtn);
+        });
+    }
 }
 
-jQuery(document).ready(function () {
-    ativaMascaras();
-})
+var ORCAMENTO = new orcamento_admin();
