@@ -3,7 +3,7 @@
 Plugin Name: Woo - Orçamento
 Plugin URI: http://www.cicloneweb.com.br/
 Description: Transforme seu site em um catalogo online. Sistema para captação de orçamentos.
-Version: 0.0.1
+Version: 2.0.0
 Author: Ciclone Web
 License: GPL version 2 or later - http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 */
@@ -75,17 +75,21 @@ function custom_change_admin_label()
     $menu['55.5'][0] = 'Orçamentos';
 }
 
-function getConfigOrcamento($indice)
+function getConfigOrcamento($indice = '')
 {
     $option = json_decode(get_option('config_orcamento'));
-    return (isset($option->$indice)) ? $option->$indice : false;
+    if ($indice == '') {
+        return $option;
+    } else {
+        return (isset($option->$indice)) ? $option->$indice : false;
+    }
 }
 
 if (getConfigOrcamento('ocultar_preco')) {
-    add_filter('woocommerce_get_price_html', 'mycode_remove_sale_price', 100, 2);
-    add_filter('woocommerce_cart_item_price', 'mycode_remove_sale_price', 100, 2);
-    add_filter('woocommerce_cart_item_subtotal', 'mycode_remove_sale_price', 100, 2);
-    function mycode_remove_sale_price($price, $product)
+    add_filter('woocommerce_get_price_html', 'remove_sale_price', 100, 2);
+    add_filter('woocommerce_cart_item_price', 'remove_sale_price', 100, 2);
+    add_filter('woocommerce_cart_item_subtotal', 'remove_sale_price', 100, 2);
+    function remove_sale_price()
     {
         return '';
     }
